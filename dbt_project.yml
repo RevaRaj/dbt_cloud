@@ -1,0 +1,45 @@
+name: 'project_dbt'
+version: '1.0.0'
+config-version: 2
+
+# Defined variable to use inside models
+
+vars:
+  # These are used for naming columns
+  ring_stage: 'ringing'
+  connect_stage: 'connected'
+  wrap_stage:  'wrap'
+  call_record_stage: 'call_Recording'
+  held_stage: 'held'
+  delivery_failed_stage: 'delivery_failed'
+
+  # Used for comparing column values for each stage
+  ring: Ringing
+  connect: Connected
+  wrap: Wrap
+  call_record: CallRecording
+  held: Held
+  delivery_failed: DeliveryFailed
+
+  
+# My connection  in profiles.yml
+profile: 'postgres_conn'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  
+clean-targets:         
+  - "target"
+  - "dbt_packages"
+
+
+models:
+  project_dbt:
+    staging:
+      +materialized: view
+      +schema: staging1 # Custom schema where my tables will be created
